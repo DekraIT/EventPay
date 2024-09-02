@@ -18,20 +18,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <body className={inter.className}>
+      <body className={inter.className + ' h-dvh'}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-screen flex-col">
-            <div className="sticky top-0 flex items-center justify-between border-b-2 border-current p-4">
-              <p>Menü</p>
+          <div className="flex h-dvh flex-col">
+            <header className="border-grey sticky top-0 flex w-full items-center justify-between border-b p-4 text-center">
+              <p className="text-lg font-bold">Menü</p>
               <SideMenu />
-            </div>
+            </header>
 
-            <div className="w-full flex-1 p-4">{children}</div>
+            {children}
           </div>
         </ThemeProvider>
       </body>
