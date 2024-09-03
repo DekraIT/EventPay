@@ -1,13 +1,10 @@
 'use server';
 
-import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { createClient } from '../../../utils/supabase/server';
-import { PostgrestError } from '@supabase/supabase-js';
-import { ProductList } from './Components/productList';
-import { ProductSection } from './Components/productSection';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ProductStateful } from './Components/productStateful';
+import { Product, ProductCategory } from '../../../utils/types';
+import { SideMenu } from '@/components/sideMenu';
 
 export default async function Home() {
   const supabase = createClient();
@@ -15,7 +12,6 @@ export default async function Home() {
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data?.user) {
-    console.log(error);
     redirect('/login');
   }
 
@@ -27,23 +23,14 @@ export default async function Home() {
     .from('products')
     .select('*');
 
-  return (
-    <>
-      <main className="flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-        {productCategories?.map(({ name, id, color }) => (
-          <ProductSection
-            key={id}
-            categoryName={name as string}
-            products={products?.filter((product) => product.category === id) ?? []}
-            color={color as 'lime' | 'blue' | 'rose' | 'amber'}
-          />
-        ))}
-      </main>
+  if (productCategoriesReadTableError || productsReadTableError) {
+    redirect('/error');
+  }
 
-      <div className="sticky bottom-0 flex w-full flex-row items-center justify-between gap-4 p-4">
-        <Button className="item-center flex-1 shrink-0">Bestellung: {0} €</Button>
-        <Button className="item-center flex-1 shrink-0">Bezahlen</Button>
-      </div>
-    </>
+  return (
+    <ProductStateful
+      products={products as Product[]}
+      productCategories={productCategories as ProductCategory[]}
+    />
   );
 }

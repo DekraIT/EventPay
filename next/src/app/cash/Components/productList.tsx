@@ -1,16 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { ProductItem } from './productItem';
 import { Button } from '@/components/ui/button';
+import { Product } from '../../../../utils/types';
 
-export const ProductList = ({
-  color,
-  products,
-}: {
-  products: any[] | null;
+type ProductListProps = {
   color: 'lime' | 'blue' | 'rose' | 'amber';
-}) => {
+  products: Product[];
+  handleAddItem: (product: Product) => void;
+};
+
+export const ProductList = ({ color, products, handleAddItem }: ProductListProps) => {
   const [selection, setSelection] = useState<{ name: string; price: number; amount: number }[]>([]);
   const [state, setState] = useState<'order' | 'pay'>('order');
   const [money, setMoney] = useState(0);
@@ -38,16 +38,7 @@ export const ProductList = ({
             <div key={product.id} className="aspect-square w-full">
               <Button
                 variant="ghost"
-                onClick={() =>
-                  setSelection((current) => {
-                    // TODO: change state, so amount of a product is shown instead of the product twice
-
-                    return [
-                      ...current,
-                      { name: product.name as string, price: product.price as number, amount: 1 },
-                    ];
-                  })
-                }
+                onClick={() => handleAddItem(product)}
                 className={'flex h-full w-full flex-col justify-between border-0 ' + colors[color]}
               >
                 <p className="text-wrap">{product.name}</p>
@@ -56,23 +47,6 @@ export const ProductList = ({
             </div>
           ))}
         </div>
-
-        {/* <ScrollArea className="h-52 w-full rounded-md border">
-          <div>
-            {selection.map((product, index) => (
-              <ProductItem
-                key={index}
-                name={product.name}
-                price={product.price}
-                handleClick={() =>
-                  setSelection((current) =>
-                    current.filter((_, filterIndex) => index !== filterIndex),
-                  )
-                }
-              />
-            ))}
-          </div>
-        </ScrollArea> */}
       </div>
     );
   }

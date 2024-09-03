@@ -11,21 +11,70 @@ export type Database = {
     Tables: {
       product_categories: {
         Row: {
+          color: string | null
           created_at: string
           id: number
           name: string
         }
         Insert: {
+          color?: string | null
           created_at?: string
           id?: number
           name: string
         }
         Update: {
+          color?: string | null
           created_at?: string
           id?: number
           name?: string
         }
         Relationships: []
+      }
+      product_sales: {
+        Row: {
+          created_at: string
+          id: number
+          product_category_id: number | null
+          product_id: number | null
+          sales_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          product_category_id?: number | null
+          product_id?: number | null
+          sales_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          product_category_id?: number | null
+          product_id?: number | null
+          sales_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_sales_product_category_id_fkey"
+            columns: ["product_category_id"]
+            isOneToOne: false
+            referencedRelation: "product_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_sales_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_sales_sales_id_fkey"
+            columns: ["sales_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       products: {
         Row: {
@@ -58,6 +107,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sales: {
+        Row: {
+          created_at: string
+          id: number
+          payed_money: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          payed_money: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          payed_money?: number
+        }
+        Relationships: []
       }
     }
     Views: {

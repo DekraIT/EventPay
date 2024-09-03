@@ -25,14 +25,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-dvh flex-col">
-            <header className="border-grey sticky top-0 flex w-full items-center justify-between border-b p-4 text-center">
-              <p className="text-lg font-bold">Menü</p>
-              <SideMenu />
-            </header>
-
-            {children}
-          </div>
+          <div className="flex h-dvh flex-col">{children}</div>
         </ThemeProvider>
       </body>
     </html>

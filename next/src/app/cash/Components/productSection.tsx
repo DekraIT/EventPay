@@ -1,20 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { ProductList } from './productList';
-import { createClient } from '../../../../utils/supabase/client';
+import { Product } from '../../../../utils/types';
 
 type ProductSection = {
   categoryName: string;
   color: 'lime' | 'blue' | 'rose' | 'amber';
-  products: { id: number; name: string; price: number }[];
+  products: Product[];
+  handleAddItem: (product: Product) => void;
 };
 
-export const ProductSection = ({ categoryName, color, products }: ProductSection) => {
+export const ProductSection = ({
+  categoryName,
+  color,
+  products,
+  handleAddItem,
+}: ProductSection) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <p className="text-xl">{categoryName}</p>
-      <ProductList products={products} color={color} />
+      <ProductList handleAddItem={handleAddItem} products={products} color={color} />
     </div>
   );
 };
