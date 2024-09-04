@@ -293,7 +293,6 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                           step={0.1}
                           inputMode="decimal" // This will bring up the numeric keyboard with a comma key
                           pattern="^\d+([.,]\d{1,2})?$" // Allow numbers with optional comma or period
-                          placeholder="Manuell eintragen"
                           {...field}
                           onChange={(event) => {
                             form.setValue('payment', Number(event.currentTarget.value), {
@@ -306,6 +305,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                             // Add this line to scroll to the top
                             // window.scrollTo(0, 0);
                           }}
+                          disabled
                         />
                       </FormControl>
                       <FormMessage />
