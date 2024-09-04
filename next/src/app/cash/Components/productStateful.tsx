@@ -84,6 +84,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
   const formPaymentValue = useMemo(() => {
@@ -242,7 +243,6 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                 </Label>
               </div>
             )}
-
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4">
                 <FormField
@@ -259,6 +259,12 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                           pattern="^\d+([.,]\d{1,2})?$" // Allow numbers with optional comma or period
                           placeholder="Manuell eintragen"
                           {...field}
+                          onChange={(event) => {
+                            console.log('onChange');
+                            form.setValue('payment', Number(event.currentTarget.value), {
+                              shouldValidate: true,
+                            });
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
