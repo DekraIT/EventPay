@@ -236,7 +236,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             <Button
               onClick={() => {
                 // Add this line to scroll to the top
-                window.scrollTo(0, 0);
+                //window.scrollTo(0, 0);
               }}
               disabled={price === 0}
               className="item-center flex-1 shrink-0"
@@ -245,7 +245,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             </Button>
           </DrawerTrigger>
 
-          <DrawerContent className="flex min-h-[70vh] flex-col">
+          <DrawerContent className="flex flex-col">
             <DrawerHeader>
               <DrawerTitle>Wechselgeld berechnen</DrawerTitle>
               <DrawerDescription>Summe: {price} €</DrawerDescription>
@@ -279,11 +279,11 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                               shouldValidate: true,
                             });
                             // Add this line to scroll to the top
-                            window.scrollTo(0, 0);
+                            // window.scrollTo(0, 0);
                           }}
                           onClick={() => {
                             // Add this line to scroll to the top
-                            window.scrollTo(0, 0);
+                            // window.scrollTo(0, 0);
                           }}
                         />
                       </FormControl>
