@@ -122,6 +122,27 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
     setSelectedItems([]);
   }
 
+  const formContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (formContainerRef.current) {
+        formContainerRef.current.style.setProperty('bottom', `env(safe-area-inset-bottom)`);
+      }
+    };
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+      handleResize(); // Initial call in case the keyboard is already open
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+      }
+    };
+  }, []);
+
   return (
     <>
       <header className="border-grey sticky top-0 flex w-full items-center justify-between border-b p-4 text-center">
@@ -245,7 +266,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             </Button>
           </DrawerTrigger>
 
-          <DrawerContent className="flex flex-col">
+          <DrawerContent ref={formContainerRef} draggable={false} className="flex flex-col">
             <DrawerHeader>
               <DrawerTitle>Wechselgeld berechnen</DrawerTitle>
               <DrawerDescription>Summe: {price} €</DrawerDescription>
