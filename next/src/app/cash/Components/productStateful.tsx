@@ -251,8 +251,8 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                       <FormLabel>Betrag Erhalten</FormLabel>
                       <FormControl>
                         <Input
-                          className="my-input"
                           type="number"
+                          pattern="\d*"
                           step={0.1}
                           placeholder="Manuell eintragen"
                           {...field}
