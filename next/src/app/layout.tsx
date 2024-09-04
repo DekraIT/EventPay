@@ -29,14 +29,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <body className={inter.className + ' h-dvh'}>
+      <body className={inter.className + ' h-screen'}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-dvh flex-col">{children}</div>
+          <div className="flex h-screen flex-col">{children}</div>
         </ThemeProvider>
       </body>
     </html>
