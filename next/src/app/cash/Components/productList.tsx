@@ -39,7 +39,10 @@ export const ProductList = ({ color, products, handleAddItem }: ProductListProps
               <Button
                 variant="ghost"
                 onClick={() => handleAddItem(product)}
-                className={'flex h-full w-full flex-col justify-between border-0 ' + colors[color]}
+                className={
+                  'flex h-full w-full flex-col justify-between hyphens-auto break-words border-0 p-1 ' +
+                  colors[color]
+                }
               >
                 <p className="text-wrap">{product.name}</p>
                 <p className="self-bottom">{Number(product.price).toFixed(2)} €</p>
