@@ -144,7 +144,15 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
       <div className="sticky bottom-0 flex w-full flex-row items-center justify-between gap-4 p-4">
         <Drawer>
           <DrawerTrigger asChild>
-            <Button variant="outline">Bearbeiten</Button>
+            <Button
+              onClick={() => {
+                // Add this line to scroll to the top
+                window.scrollTo(0, 0);
+              }}
+              variant="outline"
+            >
+              Bearbeiten
+            </Button>
           </DrawerTrigger>
           <DrawerContent>
             <div className="mx-auto w-full max-w-sm">
@@ -225,7 +233,14 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
           }}
         >
           <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
-            <Button disabled={price === 0} className="item-center flex-1 shrink-0">
+            <Button
+              onClick={() => {
+                // Add this line to scroll to the top
+                window.scrollTo(0, 0);
+              }}
+              disabled={price === 0}
+              className="item-center flex-1 shrink-0"
+            >
               Kassieren
             </Button>
           </DrawerTrigger>
