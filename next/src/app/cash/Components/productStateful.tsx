@@ -237,7 +237,9 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
 
             {formPaymentValue - price >= 0 && (
               <div className="my-4 flex flex-row items-center justify-center">
-                <Label className="text-xl font-bold">Rückgeld: {formPaymentValue - price}</Label>
+                <Label className="text-xl font-bold">
+                  Rückgeld: {Math.round((formPaymentValue - price) * 100) / 100}
+                </Label>
               </div>
             )}
 
@@ -252,8 +254,9 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                       <FormControl>
                         <Input
                           type="number"
-                          pattern="\d*"
                           step={0.1}
+                          inputMode="decimal" // This will bring up the numeric keyboard with a comma key
+                          pattern="^\d+([.,]\d{1,2})?$" // Allow numbers with optional comma or period
                           placeholder="Manuell eintragen"
                           {...field}
                         />
