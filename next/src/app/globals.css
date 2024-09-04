@@ -16,9 +16,6 @@
   }
 }
 
-input {
-  color: black;
-}
 
 @layer utilities {
   .text-balance {

@@ -122,27 +122,6 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
     setSelectedItems([]);
   }
 
-  const formContainerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (formContainerRef.current) {
-        formContainerRef.current.style.setProperty('bottom', `env(safe-area-inset-bottom)`);
-      }
-    };
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleResize);
-      handleResize(); // Initial call in case the keyboard is already open
-    }
-
-    return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleResize);
-      }
-    };
-  }, []);
-
   return (
     <>
       <header className="border-grey sticky top-0 flex w-full items-center justify-between border-b p-4 text-center">
@@ -266,7 +245,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             </Button>
           </DrawerTrigger>
 
-          <DrawerContent ref={formContainerRef} draggable={false} className="flex flex-col">
+          <DrawerContent className="flex flex-col">
             <DrawerHeader>
               <DrawerTitle>Wechselgeld berechnen</DrawerTitle>
               <DrawerDescription>Summe: {price} €</DrawerDescription>
@@ -301,6 +280,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                             // Add this line to scroll to the top
                             // window.scrollTo(0, 0);
                           }}
+                          defaultValue={0}
                           onClick={() => {
                             // Add this line to scroll to the top
                             // window.scrollTo(0, 0);
@@ -322,7 +302,18 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                   >
                     Passend
                   </Button>
-                  <div className="invisible col-start-3 col-end-5"></div>
+                  <Button
+                    onClick={() => {
+                      form.setValue('payment', undefined, { shouldValidate: true });
+                      form.setValue('payment', 0, { shouldValidate: false });
+                    }}
+                    size="sm"
+                    type="button"
+                    variant="destructive"
+                    className="col-start-3 col-end-5"
+                  >
+                    Zurücksetzen
+                  </Button>
                   {[50, 20, 10, 5, 2, 1, 0.5, 0.1].map((sum: number) => (
                     <Button
                       onClick={() =>
@@ -340,7 +331,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                   ))}
                 </div>
 
-                <DrawerFooter className="flex flex-row items-center justify-between gap-4">
+                <DrawerFooter className="flex flex-row items-center justify-between gap-4 px-0">
                   <DrawerClose className="flex-1">
                     <Button type="button" className="w-full" variant="outline">
                       Abbrechen
