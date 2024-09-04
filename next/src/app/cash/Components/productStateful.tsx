@@ -314,6 +314,15 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                 />
 
                 <div className="grid grid-cols-4 gap-4">
+                  <Button
+                    onClick={() => form.setValue('payment', price, { shouldValidate: true })}
+                    size="sm"
+                    type="button"
+                    className="col-start-1 col-end-3"
+                  >
+                    Passend
+                  </Button>
+                  <div className="invisible col-start-3 col-end-5"></div>
                   {[50, 20, 10, 5, 2, 1, 0.5, 0.1].map((sum: number) => (
                     <Button
                       onClick={() =>
