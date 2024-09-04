@@ -266,7 +266,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             </Button>
           </DrawerTrigger>
 
-          <DrawerContent ref={formContainerRef} className="flex flex-col">
+          <DrawerContent ref={formContainerRef} className="flex min-h-[70vh] flex-col">
             <DrawerHeader>
               <DrawerTitle>Wechselgeld berechnen</DrawerTitle>
               <DrawerDescription>Summe: {price} €</DrawerDescription>
