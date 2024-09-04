@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from './theme-provider';
 import { SideMenu } from '@/components/sideMenu';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,9 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <head>
+      <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-      </head>
+      </Head>
       <body className={inter.className + ' h-dvh'}>
         <ThemeProvider
           attribute="class"

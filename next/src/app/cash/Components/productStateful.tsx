@@ -238,7 +238,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             {formPaymentValue - price >= 0 && (
               <div className="my-4 flex flex-row items-center justify-center">
                 <Label className="text-xl font-bold">
-                  Rückgeld: {Math.round((formPaymentValue - price) * 100) / 100}
+                  Rückgeld: {(Math.round((formPaymentValue - price) * 100) / 100).toFixed(2)}
                 </Label>
               </div>
             )}
