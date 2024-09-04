@@ -275,10 +275,15 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                           placeholder="Manuell eintragen"
                           {...field}
                           onChange={(event) => {
-                            console.log('onChange');
                             form.setValue('payment', Number(event.currentTarget.value), {
                               shouldValidate: true,
                             });
+                            // Add this line to scroll to the top
+                            window.scrollTo(0, 0);
+                          }}
+                          onClick={() => {
+                            // Add this line to scroll to the top
+                            window.scrollTo(0, 0);
                           }}
                         />
                       </FormControl>
