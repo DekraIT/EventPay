@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { ProductSection } from './productSection';
 import { Product, ProductCategory } from '../../../../utils/types';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Drawer,
   DrawerClose,
@@ -70,6 +70,27 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
         return { ...item, amount: item.amount + 1 };
       });
     });
+  }, []);
+
+  const formContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (formContainerRef.current) {
+        formContainerRef.current.style.setProperty('bottom', `env(safe-area-inset-bottom)`);
+      }
+    };
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleResize);
+      handleResize(); // Initial call in case the keyboard is already open
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleResize);
+      }
+    };
   }, []);
 
   const price = useMemo(
@@ -245,7 +266,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             </Button>
           </DrawerTrigger>
 
-          <DrawerContent className="flex flex-col">
+          <DrawerContent ref={formContainerRef} className="flex flex-col">
             <DrawerHeader>
               <DrawerTitle>Wechselgeld berechnen</DrawerTitle>
               <DrawerDescription>Summe: {price} €</DrawerDescription>
