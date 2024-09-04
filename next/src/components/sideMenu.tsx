@@ -35,13 +35,13 @@ export function SideMenu() {
               Kassieren
             </Link>
           </SheetClose>
-          <Separator />
+          {/* <Separator />
           <SheetClose asChild>
             <Link className="py-4" href="/addProduct">
               Produkte konfigurieren
             </Link>
           </SheetClose>
-          <Separator className="mb-4" />
+          <Separator className="mb-4" /> */}
         </div>
         <ModeToggle />
       </SheetContent>
