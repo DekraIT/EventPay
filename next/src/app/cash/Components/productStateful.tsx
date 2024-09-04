@@ -331,7 +331,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                   ))}
                 </div>
 
-                <div className="flex flex-row items-center justify-between gap-4">
+                <DrawerFooter className="flex flex-row items-center justify-between gap-4">
                   <DrawerClose className="flex-1">
                     <Button type="button" className="w-full" variant="outline">
                       Abbrechen
@@ -343,7 +343,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                       Quittieren
                     </Button>
                   </DrawerClose>
-                </div>
+                </DrawerFooter>
               </form>
             </Form>
           </DrawerContent>
