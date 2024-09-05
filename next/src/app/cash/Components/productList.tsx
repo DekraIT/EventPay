@@ -33,19 +33,21 @@ export const ProductList = ({ color, products, handleAddItem }: ProductListProps
   if (state === 'order') {
     return (
       <div className="w-full flex-1 flex-col">
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 md:grid-cols-4">
           {products?.map((product) => (
             <div key={product.id} className="aspect-square w-full">
               <Button
                 variant="ghost"
                 onClick={() => handleAddItem(product)}
                 className={
-                  'flex h-full w-full flex-col justify-between hyphens-auto break-words border-0 p-1 ' +
+                  'flex h-full w-full flex-col justify-center hyphens-auto break-words border-0 p-4 md:justify-between md:text-xl ' +
                   colors[color]
                 }
               >
-                <p className="text-wrap">{product.name}</p>
-                <p className="self-bottom">{Number(product.price).toFixed(2)} €</p>
+                <p className="text-wrap text-lg md:text-xl">{product.name}</p>
+                <p className="self-bottom hidden text-lg md:inline md:text-xl">
+                  {Number(product.price).toFixed(2)} €
+                </p>
               </Button>
             </div>
           ))}

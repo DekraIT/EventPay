@@ -43,6 +43,7 @@ import {
 } from '@/components/ui/table';
 import { MinusIcon, PlusIcon, TrashIcon } from '@radix-ui/react-icons';
 import { SideMenu } from '@/components/sideMenu';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type ProductStatefulProps = {
   productCategories: ProductCategory[];
@@ -125,7 +126,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
   return (
     <>
       <header className="border-grey sticky top-0 flex w-full items-center justify-between border-b p-4 text-center">
-        <Label className="text-lg font-bold">Summe: {price} €</Label>
+        <Label className="text-2xl font-bold md:text-3xl">Summe: {price} €</Label>
         <SideMenu />
       </header>
 
@@ -142,49 +143,36 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
       </main>
 
       <div className="sticky bottom-0 flex w-full flex-row items-center justify-between gap-4 p-4">
-        <Drawer>
-          <DrawerTrigger asChild>
-            <Button
-              onClick={() => {
-                // Add this line to scroll to the top
-                window.scrollTo(0, 0);
-              }}
-              variant="outline"
-            >
-              Bearbeiten
+        <Button onClick={() => setSelectedItems([])} variant="destructive">
+          Zurüksetzen
+        </Button>
+        <Drawer
+          onClose={() => {
+            form.setValue('payment', undefined, { shouldValidate: true });
+          }}
+        >
+          <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
+            <Button disabled={selectedItems.length === 0} className="item-center flex-1 shrink-0">
+              Kassieren
             </Button>
           </DrawerTrigger>
-          <DrawerContent>
-            <div className="mx-auto w-full max-w-sm">
-              <DrawerHeader>
-                <DrawerTitle>Bearbeiten</DrawerTitle>
-                <DrawerDescription>- Entfernen / + Hinzufügen </DrawerDescription>
-              </DrawerHeader>
 
-              <div className="px-4">
-                <Table>
-                  <TableBody>
-                    {selectedItems.map((item) => (
-                      <TableRow>
-                        <TableCell className="font-medium">{item.name}</TableCell>
-                        <TableCell className="flex flex-row justify-between">
-                          <Button
-                            onClick={() => {
-                              setSelectedItems((currentItems) =>
-                                currentItems.map((currentItem) => {
-                                  if (currentItem.id === item.id) {
-                                    return { ...currentItem, amount: currentItem.amount + 1 };
-                                  }
+          <DrawerContent className="flex flex-col">
+            <DrawerHeader>
+              <DrawerTitle className="font-bold md:text-2xl">Wechselgeld berechnen</DrawerTitle>
+            </DrawerHeader>
 
-                                  return currentItem;
-                                }),
-                              );
-                            }}
-                            size="icon"
-                          >
-                            <PlusIcon />
-                          </Button>
-                          <Label className="text-xl font-medium">{item.amount}</Label>
+            <ScrollArea className="mt-4 max-h-[30vh] w-full overflow-auto md:max-h-[50vh]">
+              <div className="flex w-full flex-col px-4">
+                {selectedItems.map((item, itemIndex) => (
+                  <div key={item.id}>
+                    <div className="grid grid-cols-2 items-center gap-2 md:flex md:flex-row md:justify-between">
+                      <Label className="text-md hyphens-auto break-words font-medium md:text-xl">
+                        {item.name}
+                      </Label>
+
+                      <div className="flex flex-row items-center gap-4">
+                        <div className="w-100 flex flex-row md:w-auto">
                           <Button
                             onClick={() => {
                               setSelectedItems((currentItems) =>
@@ -211,53 +199,70 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                           >
                             <MinusIcon />
                           </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+
+                          <div className="flex items-center justify-center md:min-w-16 md:min-w-24">
+                            <Label className="text-md px-4 font-medium md:text-xl">
+                              <span className="hidden md:inline">x </span>
+                              {item.amount}
+                            </Label>
+                          </div>
+
+                          <Button
+                            onClick={() => {
+                              setSelectedItems((currentItems) =>
+                                currentItems.map((currentItem) => {
+                                  if (currentItem.id === item.id) {
+                                    return { ...currentItem, amount: currentItem.amount + 1 };
+                                  }
+
+                                  return currentItem;
+                                }),
+                              );
+                            }}
+                            size="icon"
+                          >
+                            <PlusIcon />
+                          </Button>
+                        </div>
+
+                        <div className="grow text-right md:min-w-32">
+                          <Label className="text-md font-medium md:text-xl">
+                            <span className="hidden md:inline">Preis: </span>
+                            {item.price * item.amount} €
+                          </Label>
+                        </div>
+                      </div>
+                    </div>
+                    <Separator
+                      className={'my-4 ' + (itemIndex === selectedItems.length - 1 ? 'hidden' : '')}
+                    />
+                  </div>
+                ))}
               </div>
+            </ScrollArea>
 
-              <DrawerFooter>
-                <DrawerClose asChild>
-                  <Button>Fertig</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </div>
-          </DrawerContent>
-        </Drawer>
-
-        <Drawer
-          onClose={() => {
-            form.setValue('payment', undefined, { shouldValidate: true });
-          }}
-        >
-          <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
-            <Button
-              onClick={() => {
-                // Add this line to scroll to the top
-                //window.scrollTo(0, 0);
-              }}
-              disabled={price === 0}
-              className="item-center flex-1 shrink-0"
-            >
-              Kassieren
-            </Button>
-          </DrawerTrigger>
-
-          <DrawerContent className="flex flex-col">
-            <DrawerHeader>
-              <DrawerTitle>Wechselgeld berechnen</DrawerTitle>
-              <DrawerDescription>Summe: {price} €</DrawerDescription>
-            </DrawerHeader>
-
-            {formPaymentValue - price >= 0 && (
-              <div className="my-4 flex flex-row items-center justify-center">
-                <Label className="text-xl font-bold">
-                  Rückgeld: {(Math.round((formPaymentValue - price) * 100) / 100).toFixed(2)}
+            <div className="mt-8 flex w-full flex-col gap-2 px-4 md:w-1/2 md:self-end">
+              <div className="flex flex-row items-center justify-between gap-4">
+                <Label className="text-md self-end font-medium md:text-2xl">Summe:</Label>
+                <Label className="text-md self-end font-medium md:text-2xl">{price} €</Label>
+              </div>
+              <div className="flex flex-row items-center justify-between">
+                <Label className="text-md self-end font-medium md:text-2xl">Erhalten:</Label>
+                <Label className="text-md self-end font-medium md:text-2xl">
+                  {formPaymentValue} €
                 </Label>
               </div>
-            )}
+              <Separator />
+              <div className="flex flex-row items-center justify-between gap-4">
+                <Label className="self-end text-xl font-bold md:text-2xl">
+                  {formPaymentValue - price > 0 ? 'Rückgeld:' : 'Noch zu zahlen:'}
+                </Label>
+                <Label className="self-end text-xl font-bold md:text-2xl">
+                  {(Math.round(Math.abs(formPaymentValue - price) * 100) / 100).toFixed(2)} €
+                </Label>
+              </div>
+            </div>
+
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4">
                 <FormField
@@ -265,7 +270,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                   name="payment"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Betrag Erhalten</FormLabel>
+                      <FormLabel className="hidden">Betrag Erhalten</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -277,45 +282,43 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                             form.setValue('payment', Number(event.currentTarget.value), {
                               shouldValidate: true,
                             });
-                            // Add this line to scroll to the top
-                            // window.scrollTo(0, 0);
                           }}
                           defaultValue={0}
-                          onClick={() => {
-                            // Add this line to scroll to the top
-                            // window.scrollTo(0, 0);
-                          }}
                           disabled
+                          className="hidden"
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="hidden" />
                     </FormItem>
                   )}
                 />
 
                 <div className="grid grid-cols-4 gap-4">
                   <Button
-                    onClick={() => form.setValue('payment', price, { shouldValidate: true })}
-                    size="sm"
-                    type="button"
-                    className="col-start-1 col-end-3"
-                  >
-                    Passend
-                  </Button>
-                  <Button
                     onClick={() => {
                       form.setValue('payment', undefined, { shouldValidate: true });
                       form.setValue('payment', 0, { shouldValidate: false });
                     }}
-                    size="sm"
+                    size="lg"
                     type="button"
                     variant="destructive"
-                    className="col-start-3 col-end-5"
+                    className="col-start-1 col-end-3"
                   >
                     Zurücksetzen
                   </Button>
-                  {[50, 20, 10, 5, 2, 1, 0.5, 0.1].map((sum: number) => (
+
+                  <Button
+                    onClick={() => form.setValue('payment', price, { shouldValidate: true })}
+                    size="lg"
+                    type="button"
+                    className="col-start-3 col-end-5"
+                  >
+                    Passend
+                  </Button>
+
+                  {[50, 20, 10, 5, 2, 1, 0.5, 0.1].map((sum: number, index) => (
                     <Button
+                      key={index}
                       onClick={() =>
                         form.setValue(
                           'payment',
@@ -323,7 +326,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                           { shouldValidate: true },
                         )
                       }
-                      size="sm"
+                      size="lg"
                       type="button"
                     >
                       + {sum} €
@@ -333,13 +336,18 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
 
                 <DrawerFooter className="flex flex-row items-center justify-between gap-4 px-0">
                   <DrawerClose className="flex-1">
-                    <Button type="button" className="w-full" variant="outline">
+                    <Button type="button" className="w-full" variant="outline" size="lg">
                       Abbrechen
                     </Button>
                   </DrawerClose>
 
-                  <DrawerClose disabled={!form.formState.isValid} className="flex-1">
-                    <Button disabled={!form.formState.isValid} type="submit" className="w-full">
+                  <DrawerClose disabled={formPaymentValue - price < 0} className="flex-1">
+                    <Button
+                      disabled={formPaymentValue - price < 0}
+                      type="submit"
+                      className="w-full"
+                      size="lg"
+                    >
                       Quittieren
                     </Button>
                   </DrawerClose>
