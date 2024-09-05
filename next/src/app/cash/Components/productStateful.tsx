@@ -168,7 +168,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                   <div key={item.id}>
                     <div className="grid grid-cols-2 items-center gap-2 md:flex md:flex-row md:justify-between">
                       <Label className="text-md hyphens-auto break-words font-medium md:text-xl">
-                        {item.name}
+                        {`${item.name} ${item.name_suffix || ''}`}
                       </Label>
 
                       <div className="flex flex-row items-center gap-4">
