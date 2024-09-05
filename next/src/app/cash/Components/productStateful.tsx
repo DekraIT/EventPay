@@ -162,7 +162,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
               <DrawerTitle className="font-bold md:text-2xl">Wechselgeld berechnen</DrawerTitle>
             </DrawerHeader>
 
-            <ScrollArea className="mt-4 max-h-[20vh] w-full overflow-auto md:max-h-[50vh]">
+            <ScrollArea className="mt-4 max-h-[20vh] w-full overflow-auto md:max-h-[50vh] landscape:max-h-[20vh]">
               <div className="flex w-full flex-col px-4">
                 {selectedItems.map((item, itemIndex) => (
                   <div key={item.id}>
