@@ -264,7 +264,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4">
+              <form className="space-y-8 px-4">
                 <FormField
                   control={form.control}
                   name="payment"
@@ -347,6 +347,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                       type="submit"
                       className="w-full"
                       size="lg"
+                      onClick={() => onSubmit({ payment: formPaymentValue })}
                     >
                       Quittieren
                     </Button>
