@@ -4,7 +4,7 @@ import { createClient } from '../../../utils/supabase/server';
 import { SalesPerHourCard } from './Components/salesPerHourCard';
 import { ProductSales } from './Components/productSales';
 
-export const description = 'A bar chart';
+const description = 'A bar chart';
 
 const chartData = [
   { month: 'January', desktop: 186 },
