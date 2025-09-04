@@ -347,7 +347,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                       type="submit"
                       className="w-full"
                       size="lg"
-                      onClick={() => onSubmit({ payment: formPaymentValue })}
+                      onClick={async () => await onSubmit({ payment: formPaymentValue })}
                     >
                       Quittieren
                     </Button>
