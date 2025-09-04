@@ -104,7 +104,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
     // ✅ This will be type-safe and validated.
     const { data, error } = await supabase
       .from('sales')
-      .insert({ payed_money: values.payment ? values.payment - price : 0 })
+      .insert({ payed_money: values.payment ? values.payment : 0 })
       .select();
 
     if (!data || error) {
