@@ -345,14 +345,14 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
                     </Button>
                   </DrawerClose>
 
-                  <DrawerClose  className="flex-1">
+                  <DrawerClose className="flex-1">
                     <Button
                       disabled={selectedItems.length === 0}
                       type="button"
                       className="w-full"
                       size="lg"
                       onClick={async (e) => {
-                        e.preventDefault()
+                        //e.preventDefault()
                         await onSubmit({ payment: formPaymentValue })}}
                     >
                       Quittieren
