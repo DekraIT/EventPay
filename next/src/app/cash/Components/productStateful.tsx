@@ -52,6 +52,7 @@ type ProductStatefulProps = {
 
 export const ProductStateful = ({ productCategories, products }: ProductStatefulProps) => {
   const [selectedItems, setSelectedItems] = useState<(Product & { amount: number })[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const supabase = createClient();
 
@@ -79,7 +80,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
   );
 
   const formSchema = z.object({
-    payment: z.coerce.number().min(price).max(Infinity).optional(),
+    payment: z.coerce.number().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -107,6 +108,8 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
       .insert({ payed_money: values.payment ? values.payment : 0 })
       .select();
 
+    console.log({data, error})
+
     if (!data || error) {
       form.setValue('payment', undefined, { shouldValidate: true });
       setSelectedItems([]);
@@ -121,6 +124,7 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
 
     form.setValue('payment', undefined, { shouldValidate: true });
     setSelectedItems([]);
+    setIsDrawerOpen(false)
   }
 
   return (
@@ -147,12 +151,13 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
           Zurüksetzen
         </Button>
         <Drawer
+          open={isDrawerOpen}
           onClose={() => {
             form.setValue('payment', undefined, { shouldValidate: true });
           }}
         >
           <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
-            <Button disabled={selectedItems.length === 0} className="item-center flex-1 shrink-0">
+            <Button onClick={()=>setIsDrawerOpen(true)} disabled={selectedItems.length === 0} className="item-center flex-1 shrink-0">
               Kassieren
             </Button>
           </DrawerTrigger>
@@ -336,18 +341,20 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
 
                 <DrawerFooter className="flex flex-row items-center justify-between gap-4 px-0">
                   <DrawerClose className="flex-1">
-                    <Button type="button" className="w-full" variant="outline" size="lg">
+                    <Button onClick={() => setIsDrawerOpen(false)} type="button" className="w-full" variant="outline" size="lg">
                       Abbrechen
                     </Button>
                   </DrawerClose>
 
-                  <DrawerClose disabled={formPaymentValue - price < 0} className="flex-1">
+                  <DrawerClose disabled={price > 0 && formPaymentValue - price < 0} className="flex-1">
                     <Button
                       disabled={formPaymentValue - price < 0}
-                      type="submit"
+                      type="button"
                       className="w-full"
                       size="lg"
-                      onClick={async () => await onSubmit({ payment: formPaymentValue })}
+                      onClick={async (e) => {
+                        e.preventDefault()
+                        await onSubmit({ payment: formPaymentValue })}}
                     >
                       Quittieren
                     </Button>

@@ -42,12 +42,16 @@ type SalesPerHourCardProps = {
 
 const formatDate = (currentDate: Date) => {
   // Create a DateTimeFormat object for the 'Europe/Berlin' timezone
-  const berlinTime = new Intl.DateTimeFormat('en-GB', {
+  console.log({currentDate})
+
+  const berlinTime = new Intl.DateTimeFormat('de-DE', {
     timeZone: 'Europe/Berlin',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false, // Use 24-hour format
   });
+
+  console.log({berlinTime})
 
   // Format the current date and extract the time
   const [hours, minutes] = berlinTime
