@@ -156,11 +156,12 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
             form.setValue('payment', undefined, { shouldValidate: true });
           }}
         >
-          <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
             <Button onClick={()=>setIsDrawerOpen(true)} disabled={selectedItems.length === 0} className="item-center flex-1 shrink-0">
               Kassieren
             </Button>
-          </DrawerTrigger>
+     {/**     <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
+
+          </DrawerTrigger> **/}
 
           <DrawerContent className="flex flex-col">
             <DrawerHeader>
