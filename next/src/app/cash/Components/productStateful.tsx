@@ -52,7 +52,7 @@ type ProductStatefulProps = {
 
 export const ProductStateful = ({ productCategories, products }: ProductStatefulProps) => {
   const [selectedItems, setSelectedItems] = useState<(Product & { amount: number })[]>([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  //const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const supabase = createClient();
 
@@ -124,7 +124,6 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
 
     form.setValue('payment', undefined, { shouldValidate: true });
     setSelectedItems([]);
-    setIsDrawerOpen(false)
   }
 
   return (
@@ -151,17 +150,16 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
           Zurüksetzen
         </Button>
         <Drawer
-          open={isDrawerOpen}
           onClose={() => {
             form.setValue('payment', undefined, { shouldValidate: true });
           }}
         >
-            <Button onClick={()=>setIsDrawerOpen(true)} disabled={selectedItems.length === 0} className="item-center flex-1 shrink-0">
+          <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
+            <Button disabled={selectedItems.length === 0} className="item-center flex-1 shrink-0">
               Kassieren
             </Button>
-     {/**     <DrawerTrigger className="item-center flex-1 bg-foreground" asChild>
+          </DrawerTrigger>
 
-          </DrawerTrigger> **/}
 
           <DrawerContent className="flex flex-col">
             <DrawerHeader>
@@ -342,14 +340,14 @@ export const ProductStateful = ({ productCategories, products }: ProductStateful
 
                 <DrawerFooter className="flex flex-row items-center justify-between gap-4 px-0">
                   <DrawerClose className="flex-1">
-                    <Button onClick={() => setIsDrawerOpen(false)} type="button" className="w-full" variant="outline" size="lg">
+                    <Button type="button" className="w-full" variant="outline" size="lg">
                       Abbrechen
                     </Button>
                   </DrawerClose>
 
-                  <DrawerClose disabled={price > 0 && formPaymentValue - price < 0} className="flex-1">
+                  <DrawerClose  className="flex-1">
                     <Button
-                      disabled={formPaymentValue - price < 0}
+                      disabled={selectedItems.length === 0}
                       type="button"
                       className="w-full"
                       size="lg"
